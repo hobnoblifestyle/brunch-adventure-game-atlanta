@@ -49,6 +49,39 @@
             text-align: center;
             display: none;
         }
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .social-buttons button {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .twitter {
+            background-color: #1DA1F2;
+        }
+        .twitter:hover {
+            background-color: #0d8ecf;
+        }
+        .facebook {
+            background-color: #1877F2;
+        }
+        .facebook:hover {
+            background-color: #145db8;
+        }
+        .copy-link {
+            background-color: #FFD700;
+            color: black;
+        }
+        .copy-link:hover {
+            background-color: #E6BE00;
+        }
         .restart {
             margin-top: 20px;
             padding: 10px 15px;
@@ -74,6 +107,11 @@
         <div id="results" class="results">
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
+            <div class="social-buttons">
+                <button class="twitter" onclick="shareOnTwitter()">Twitter</button>
+                <button class="facebook" onclick="shareOnFacebook()">Facebook</button>
+                <button class="copy-link" onclick="copyLink()">Copy Link</button>
+            </div>
             <button class="restart" onclick="restartGame()">Restart</button>
         </div>
     </div>
@@ -145,7 +183,8 @@
             );
 
             if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
+                matchedRestaurants = restaurants.filter((r) =>
+                                  matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
             }
 
             if (matchedRestaurants.length === 0) {
@@ -166,6 +205,32 @@
             document.getElementById("results").style.display = "block";
         }
 
+        function shareOnTwitter() {
+            const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours at this adventure game:`;
+            const url = encodeURIComponent(window.location.href);
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                text
+            )}&url=${url}`;
+            window.open(twitterUrl, "_blank");
+        }
+
+        function shareOnFacebook() {
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                window.location.href
+            )}`;
+            window.open(fbUrl, "_blank");
+        }
+
+        function copyLink() {
+            const tempInput = document.createElement("input");
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Link copied to clipboard!");
+        }
+
         function restartGame() {
             currentQuestionIndex = 0;
             answers = [];
@@ -179,3 +244,4 @@
     </script>
 </body>
 </html>
+
