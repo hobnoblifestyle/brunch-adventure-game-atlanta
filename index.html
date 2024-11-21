@@ -215,11 +215,10 @@
         }
 
         function shareOnFacebook() {
-            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "");
-            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
-            const shareText = `I just found my perfect brunch spot: ${restaurantName}! Check it out here: ${shareUrl}`;
-            const encodedText = encodeURIComponent(shareText);
-            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodedText}`;
+            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "").trim();
+            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/?result=${encodeURIComponent(restaurantName)}`;
+            const shareQuote = `I just found my perfect brunch spot: ${restaurantName}! Check it out here:`;
+            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareQuote)}`;
             window.open(shareLink, "_blank");
         }
 
