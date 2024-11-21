@@ -92,31 +92,43 @@
             { vibe: "Trendy", location: "Westside", brunchItem: "Seafood", name: "The Optimist", address: "914 Howell Mill Rd, Atlanta, GA 30318" },
             { vibe: "Outdoor Seating", location: "Midtown", brunchItem: "Pancakes", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" }
         ];
-        let currentQuestionIndex = 0;
-        let answers = [];
-        let selectedRestaurant = null;
+        let currentQuestionIndex = 0; // Start from the first question
+        let answers = []; // Array to store user answers
+        let selectedRestaurant = null; // Placeholder for the restaurant result
 
         function loadQuestion() {
+            // Get the current question
             const question = questions[currentQuestionIndex];
+            
+            // Update the question text
             document.getElementById("question-text").textContent = question.text;
+            
+            // Get the options container
             const optionsList = document.getElementById("options-list");
-            optionsList.innerHTML = "";
+            optionsList.innerHTML = ""; // Clear any existing options
+
+            // Create buttons for each option
             question.options.forEach(option => {
                 const button = document.createElement("button");
-                button.textContent = option;
-                button.onclick = () => handleAnswer(option);
-                optionsList.appendChild(button);
+                button.textContent = option; // Button text
+                button.onclick = () => handleAnswer(option); // Assign click handler
+                optionsList.appendChild(button); // Add button to options list
             });
         }
 
         function handleAnswer(answer) {
+            // Store the selected answer
             answers.push(answer);
+
+            // Move to the next question
             currentQuestionIndex++;
+
+            // Check if there are more questions
             if (currentQuestionIndex < questions.length) {
-                loadQuestion();
+                loadQuestion(); // Load the next question
             } else {
-                document.getElementById("question-container").style.display = "none";
-                showResults();
+                document.getElementById("question-container").style.display = "none"; // Hide questions
+                showResults(); // Display the results
             }
         }
         function showResults() {
@@ -129,26 +141,20 @@
                 (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem && r.location === selectedLocation
             );
 
-            // Fallback 1: Match vibe and brunch item
+            // Fallback logic (if no match is found)
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter(
                     (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem
                 );
             }
-
-            // Fallback 2: Match vibe only
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
             }
-
-            // Fallback 3: Match location only
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
             }
-
-            // Fallback 4: Default to first restaurant
             if (matchedRestaurants.length === 0) {
-                matchedRestaurants = [restaurants[0]];
+                matchedRestaurants = [restaurants[0]]; // Default to the first restaurant
             }
 
             // Display the selected restaurant
@@ -157,8 +163,19 @@
                 <strong>${selectedRestaurant.name}</strong><br>
                 ${selectedRestaurant.address}
             `;
-            document.getElementById("results").style.display = "block";
+            document.getElementById("results").style.display = "block"; // Show results
         }
+
+        function restartGame() {
+            currentQuestionIndex = 0;
+            answers = [];
+            selectedRestaurant = null;
+            document.getElementById("results").style.display = "none"; // Hide results
+            document.getElementById("question-container").style.display = "block"; // Show questions
+            loadQuestion(); // Restart with the first question
+        }
+        function shareOnTwitter() {
+            const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours here:`;
             const url = encodeURIComponent(window.location.href);
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 text
@@ -193,14 +210,6 @@
             document.execCommand("copy");
             document.body.removeChild(tempInput);
             alert("Link copied to clipboard!");
-        }
-        function restartGame() {
-            currentQuestionIndex = 0;
-            answers = [];
-            selectedRestaurant = null;
-            document.getElementById("results").style.display = "none";
-            document.getElementById("question-container").style.display = "block";
-            loadQuestion();
         }
         // Initialize the game by loading the first question
         loadQuestion();
