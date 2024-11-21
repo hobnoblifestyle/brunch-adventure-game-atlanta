@@ -167,11 +167,16 @@
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
+            // Debugging: Display selected values in console
+            console.log(`Selected Vibe: ${selectedVibe}`);
+            console.log(`Selected Location: ${selectedLocation}`);
+
             // Match logic
             const restaurant =
                 restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) || // Exact match
                 restaurants.find(r => r.vibe === selectedVibe) || // Match by vibe
-                restaurants.find(r => r.location === selectedLocation); // Match by location
+                restaurants.find(r => r.location === selectedLocation) || // Match by location
+                restaurants[0]; // Fallback to the first restaurant in the list
 
             if (restaurant) {
                 resultText.textContent = `Based on your choices, we recommend: ${restaurant.name}!`;
