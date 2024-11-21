@@ -49,6 +49,23 @@
             text-align: center;
             display: none;
         }
+        .social-buttons button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .twitter { background-color: #1DA1F2; color: white; }
+        .facebook { background-color: #3B5998; color: white; }
+        .copy-link { background-color: #FFD700; color: black; }
+        .text-results { background-color: #FF5E6C; color: white; }
+        .twitter:hover { background-color: #1991DA; }
+        .facebook:hover { background-color: #324E87; }
+        .copy-link:hover { background-color: #FFC107; }
+        .text-results:hover { background-color: #E44F5C; }
     </style>
 </head>
 <body>
@@ -65,6 +82,7 @@
                 <button class="twitter" onclick="shareOnTwitter()">Twitter</button>
                 <button class="facebook" onclick="shareOnFacebook()">Facebook</button>
                 <button class="copy-link" onclick="copyLink()">Copy Link</button>
+                <button class="text-results" onclick="textResults()">Text Results</button>
             </div>
             <button class="restart" onclick="restartGame()">Restart</button>
         </div>
@@ -92,43 +110,32 @@
             { vibe: "Trendy", location: "Westside", brunchItem: "Seafood", name: "The Optimist", address: "914 Howell Mill Rd, Atlanta, GA 30318" },
             { vibe: "Outdoor Seating", location: "Midtown", brunchItem: "Pancakes", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" }
         ];
-        let currentQuestionIndex = 0; // Start from the first question
-        let answers = []; // Array to store user answers
-        let selectedRestaurant = null; // Placeholder for the restaurant result
+        let currentQuestionIndex = 0;
+        let answers = [];
+        let selectedRestaurant = null;
 
         function loadQuestion() {
-            // Get the current question
             const question = questions[currentQuestionIndex];
-            
-            // Update the question text
             document.getElementById("question-text").textContent = question.text;
-            
-            // Get the options container
             const optionsList = document.getElementById("options-list");
-            optionsList.innerHTML = ""; // Clear any existing options
+            optionsList.innerHTML = "";
 
-            // Create buttons for each option
             question.options.forEach(option => {
                 const button = document.createElement("button");
-                button.textContent = option; // Button text
-                button.onclick = () => handleAnswer(option); // Assign click handler
-                optionsList.appendChild(button); // Add button to options list
+                button.textContent = option;
+                button.onclick = () => handleAnswer(option);
+                optionsList.appendChild(button);
             });
         }
 
         function handleAnswer(answer) {
-            // Store the selected answer
             answers.push(answer);
-
-            // Move to the next question
             currentQuestionIndex++;
-
-            // Check if there are more questions
             if (currentQuestionIndex < questions.length) {
-                loadQuestion(); // Load the next question
+                loadQuestion();
             } else {
-                document.getElementById("question-container").style.display = "none"; // Hide questions
-                showResults(); // Display the results
+                document.getElementById("question-container").style.display = "none";
+                showResults();
             }
         }
         function showResults() {
@@ -136,12 +143,10 @@
             const selectedBrunchItem = answers[1];
             const selectedLocation = answers[3];
 
-            // Find a restaurant matching vibe, brunch item, and location
             let matchedRestaurants = restaurants.filter(
                 (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem && r.location === selectedLocation
             );
 
-            // Fallback logic (if no match is found)
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter(
                     (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem
@@ -151,7 +156,8 @@
                 matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
             }
             if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
+                matchedRestaurants = restaurants.filter((r) => r
+                .location === selectedLocation);
             }
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = [restaurants[0]]; // Default to the first restaurant
@@ -184,13 +190,13 @@
         }
 
         function shareOnFacebook() {
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        window.location.href
-    )}`;
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                window.location.href
+            )}`;
 
-    // Always use the Facebook share URL for universal compatibility
-    window.open(fbUrl, "_blank");
-}
+            // Always use the Facebook share URL for universal compatibility
+            window.open(fbUrl, "_blank");
+        }
 
         function copyLink() {
             const tempInput = document.createElement("input");
@@ -200,6 +206,17 @@
             document.execCommand("copy");
             document.body.removeChild(tempInput);
             alert("Link copied to clipboard!");
+        }
+        function textResults() {
+            const restaurantName = selectedRestaurant ? selectedRestaurant.name : "No match found";
+            const restaurantAddress = selectedRestaurant ? selectedRestaurant.address : "";
+            const message = `Check out this brunch spot I found: ${restaurantName} at ${restaurantAddress}!`;
+
+            // SMS URI scheme for pre-filled text
+            const smsUrl = `sms:?&body=${encodeURIComponent(message)}`;
+
+            // Open the SMS app with the pre-filled message
+            window.location.href = smsUrl;
         }
         // Initialize the game by loading the first question
         loadQuestion();
