@@ -207,30 +207,36 @@
         }
 
         function shareOnX() {
-            const shareText = `I just found my perfect brunch spot in Atlanta! Play 'Choose Your Brunch Adventure' to find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "");
+            const shareText = `I just found my perfect brunch spot: ${restaurantName}! Play 'Choose Your Brunch Adventure' to find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
             const encodedText = encodeURIComponent(shareText);
             const shareLink = `https://twitter.com/intent/tweet?text=${encodedText}`;
             window.open(shareLink, "_blank");
         }
 
         function shareOnFacebook() {
-            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
-            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "");
+            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            const shareText = `I just found my perfect brunch spot: ${restaurantName}! Check it out here: ${shareUrl}`;
+            const encodedText = encodeURIComponent(shareText);
+            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodedText}`;
             window.open(shareLink, "_blank");
         }
 
         function shareOnPinterest() {
-            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
+            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "");
+            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
             const shareImage = "https://your-image-url-here.jpg"; // Replace with a real image URL
-            const shareDescription = "Discover your perfect brunch spot in Atlanta with this fun interactive game!";
+            const shareDescription = `Discover your perfect brunch spot: ${restaurantName}! Play this fun interactive game: ${shareUrl}`;
             const shareLink = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(shareImage)}&description=${encodeURIComponent(shareDescription)}`;
             window.open(shareLink, "_blank");
         }
 
         function copyLink() {
-            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert("Link copied to clipboard! Share it on Instagram or TikTok.");
+            const restaurantName = resultText.textContent.replace("Based on your choices, we recommend: ", "");
+            const shareText = `I just found my perfect brunch spot: ${restaurantName}! Play 'Choose Your Brunch Adventure' to find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert("Your result and link have been copied! Share it on Instagram or TikTok.");
             });
         }
 
