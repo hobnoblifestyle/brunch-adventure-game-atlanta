@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Brunch Adventure | Atlanta Edition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h2 {
+            margin-bottom: 10px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background: #005bb5;
+        }
+        .results {
+            display: none;
+        }
+        .results h2 {
+            color: #0073e6;
+        }
+        .results p {
+            margin-bottom: 10px;
+        }
+        .restart, .share {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .restart:hover, .share:hover {
+            background: #005bb5;
+        }
+        .share {
+            margin-left: 5px;
+            background: #00a860;
+        }
+        .share:hover {
+            background: #007d4a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question-container">
+            <div class="question" id="question-1">
+                <h2>What vibe are you feeling today?</h2>
+                <ul class="options">
+                    <li><button data-answer="Chill">Chill</button></li>
+                    <li><button data-answer="Trendy">Trendy</button></li>
+                    <li><button data-answer="Outdoor Seating">Outdoor Seating</button></li>
+                    <li><button data-answer="Party">Party</button></li>
+                </ul>
+            </div>
+        </div>
+        <div id="results" class="results">
+            <h2>Your Brunch Spot:</h2>
+            <p id="result-text"></p>
+            <button class="restart" onclick="restartGame()">Restart</button>
+            <button class="share" onclick="shareResults()">Share Your Adventure</button>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                id: "question-1",
+                text: "What vibe are you feeling today?",
+                options: ["Chill", "Trendy", "Outdoor Seating", "Party"]
+            },
+        ];
+
+        let answers = [];
+
+        document.querySelectorAll(".options button").forEach(button => {
+            button.addEventListener("click", (e) => {
+                const answer = e.target.getAttribute("data-answer");
+                answers.push(answer);
+
+                showResults();
+            });
+        });
+
+        function showResults() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("results").style.display = "block";
+            document.getElementById("result-text").textContent = `Your vibe is: ${answers[0]}!`; 
+        }
+
+        function restartGame() {
+            answers = [];
+            document.getElementById("results").style.display = "none";
+            document.getElementById("question-container").style.display = "block";
+        }
+
+        function shareResults() {
+            const shareText = `I just found my perfect brunch spot in Atlanta! Play 'Choose Your Brunch Adventure' to find yours: [INSERT LINK]`;
+            const encodedText = encodeURIComponent(shareText);
+            const shareLink = `https://twitter.com/intent/tweet?text=${encodedText}`;
+            window.open(shareLink, "_blank");
+        }
+    </script>
+</body>
+</html>
