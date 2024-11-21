@@ -112,6 +112,13 @@
             }
         ];
 
+        const restaurants = [
+            {vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club"},
+            {vibe: "Trendy", location: "Midtown", name: "The Lawrence"},
+            {vibe: "Outdoor Seating", location: "Westside", name: "West Egg Café"},
+            {vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge"}
+        ];
+
         let currentQuestionIndex = 0;
         let answers = [];
 
@@ -150,7 +157,16 @@
         function showResults() {
             questionContainer.style.display = "none";
             resultsContainer.style.display = "block";
-            resultText.textContent = `Your vibe: ${answers[0]}, your must-have item: ${answers[1]}, your adventurous level: ${answers[2]}, and your preferred location: ${answers[3]}!`;
+            const selectedVibe = answers[0];
+            const selectedLocation = answers[3];
+            const restaurant = restaurants.find(
+                r => r.vibe === selectedVibe && r.location === selectedLocation
+            );
+            if (restaurant) {
+                resultText.textContent = `Based on your choices, we recommend: ${restaurant.name}!`;
+            } else {
+                resultText.textContent = "We couldn't find a perfect match, but explore more on our website!";
+            }
         }
 
         function restartGame() {
