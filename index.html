@@ -49,52 +49,6 @@
             text-align: center;
             display: none;
         }
-        .social-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .social-buttons button {
-            padding: 10px 15px;
-            font-size: 14px;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .twitter {
-            background-color: #1DA1F2;
-        }
-        .twitter:hover {
-            background-color: #0d8ecf;
-        }
-        .facebook {
-            background-color: #1877F2;
-        }
-        .facebook:hover {
-            background-color: #145db8;
-        }
-        .copy-link {
-            background-color: #FFD700;
-            color: black;
-        }
-        .copy-link:hover {
-            background-color: #E6BE00;
-        }
-        .restart {
-            margin-top: 20px;
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .restart:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 <body>
@@ -125,25 +79,14 @@
 
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
-            { vibe: "Chill", location: "Downtown", name: "Corner Café", address: "100 Peachtree St NW, Atlanta, GA 30303" },
             { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
-            { vibe: "Chill", location: "Midtown", name: "Egg Harbor Café", address: "1820 Peachtree Rd NW, Atlanta, GA 30309" },
-            { vibe: "Chill", location: "Buckhead", name: "Le Petit Marché", address: "1984 Hosea L Williams Dr NE, Atlanta, GA 30317" },
             { vibe: "Chill", location: "Buckhead", name: "Buttermilk Kitchen", address: "4225 Roswell Rd NE, Atlanta, GA 30342" },
             { vibe: "Trendy", location: "Downtown", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
-            { vibe: "Trendy", location: "Midtown", name: "The Lawrence", address: "905 Juniper St NE, Atlanta, GA 30309" },
             { vibe: "Trendy", location: "Midtown", name: "5Church Midtown", address: "1197 Peachtree St NE, Atlanta, GA 30361" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
-            { vibe: "Outdoor Seating", location: "Westside", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" },
             { vibe: "Outdoor Seating", location: "East Atlanta", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
-            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Muchacho", address: "904 Memorial Dr SE, Atlanta, GA 30316" },
             { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
-            { vibe: "Party", location: "Downtown", name: "Suite Food Lounge", address: "375 Luckie St NW, Atlanta, GA 30313" },
-            { vibe: "Party", location: "Buckhead", name: "Havana Club ATL", address: "3112 Piedmont Rd NE, Atlanta, GA 30305" },
-            { vibe: "Party", location: "Buckhead", name: "Tongue & Groove", address: "565 Main St NE, Atlanta, GA 30324" },
-            { vibe: "Party", location: "Midtown", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" },
-            { vibe: "Party", location: "East Atlanta", name: "MJQ Concourse", address: "736 Ponce De Leon Ave NE, Atlanta, GA 30306" }
+            { vibe: "Party", location: "Midtown", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" }
         ];
         let currentQuestionIndex = 0;
         let answers = [];
@@ -168,12 +111,36 @@
             if (currentQuestionIndex < questions.length) {
                 loadQuestion();
             } else {
-                showResults();
                 document.getElementById("question-container").style.display = "none";
+                showResults();
             }
         }
+
+        function showResults() {
+            const selectedVibe = answers[0];
+            const selectedLocation = answers[3];
+            let matchedRestaurants = restaurants.filter(
+                (r) => r.vibe === selectedVibe && r.location === selectedLocation
+            );
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
+            }
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
+            }
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants;
+            }
+            selectedRestaurant =
+                matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
+            document.getElementById("result-text").innerHTML = `
+                <strong>${selectedRestaurant.name}</strong><br>
+                ${selectedRestaurant.address}
+            `;
+            document.getElementById("results").style.display = "block";
+        }
         function shareOnTwitter() {
-            const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours at this adventure game:`;
+            const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours here:`;
             const url = encodeURIComponent(window.location.href);
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 text
@@ -197,6 +164,7 @@
             document.body.removeChild(tempInput);
             alert("Link copied to clipboard!");
         }
+
         function restartGame() {
             currentQuestionIndex = 0;
             answers = [];
