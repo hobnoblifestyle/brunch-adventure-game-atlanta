@@ -184,23 +184,27 @@
         }
 
         function shareOnFacebook() {
-            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                window.location.href
-            )}`;
-            const fbAppUrl = `fb://faceweb/f?href=${encodeURIComponent(window.location.href)}`;
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        window.location.href
+    )}`;
+    const fbAppUrl = `fb://faceweb/f?href=${encodeURIComponent(window.location.href)}`;
 
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                // Attempt to open the Facebook app
-                window.location.href = fbAppUrl;
-                // Fallback to the browser after a slight delay if the app doesn't open
-                setTimeout(() => {
-                    window.open(fbUrl, "_blank");
-                }, 1000);
-            } else {
-                // On desktop, always open in a new tab
-                window.open(fbUrl, "_blank");
-            }
-        }
+    // Detect mobile devices
+    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        // Open Facebook app on mobile
+        window.location.href = fbAppUrl;
+
+        // Fallback to browser if the app doesn't open within 1 second
+        setTimeout(() => {
+            window.open(fbUrl, "_blank");
+        }, 1000);
+    } else {
+        // Always open the share link in a new browser tab on desktop
+        window.open(fbUrl, "_blank");
+    }
+}
 
         function copyLink() {
             const tempInput = document.createElement("input");
