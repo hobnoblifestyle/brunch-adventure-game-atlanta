@@ -57,6 +57,19 @@
         .restart:hover {
             background-color: #218838;
         }
+        .share-options button {
+            margin: 10px 5px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        .share-twitter { background-color: #1DA1F2; }
+        .share-facebook { background-color: #4267B2; }
+        .share-copy { background-color: #FFC107; }
     </style>
 </head>
 <body>
@@ -69,6 +82,12 @@
         <div id="results" class="results">
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
+            <div class="share-options">
+                <p>Share your adventure:</p>
+                <button class="share-twitter" onclick="shareOnTwitter()">Twitter</button>
+                <button class="share-facebook" onclick="shareOnFacebook()">Facebook</button>
+                <button class="share-copy" onclick="copyToClipboard()">Copy Link</button>
+            </div>
             <button class="restart" onclick="restartGame()">Restart</button>
         </div>
     </div>
@@ -83,13 +102,14 @@
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
             { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Downtown", name: "Escobar", address: "327 Peters St SW, Atlanta, GA 30313" },
+            { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
             { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" }
         ];
 
         let currentQuestionIndex = 0;
         let answers = [];
+        let selectedRestaurant = null;
 
         function loadQuestion() {
             const question = questions[currentQuestionIndex];
@@ -130,20 +150,42 @@
                 return;
             }
 
-            const restaurant = matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
+            selectedRestaurant = matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
 
             document.getElementById("result-text").innerHTML = `
-                <strong>${restaurant.name}</strong><br>
-                ${restaurant.address}
+                <strong>${selectedRestaurant.name}</strong><br>
+                ${selectedRestaurant.address}
             `;
         }
 
         function restartGame() {
             currentQuestionIndex = 0;
             answers = [];
+            selectedRestaurant = null;
             document.getElementById("results").style.display = "none";
             document.getElementById("question-container").style.display = "block";
             loadQuestion();
+        }
+
+        function shareOnTwitter() {
+            if (!selectedRestaurant) return;
+            const text = `I just discovered my perfect brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+            window.open(url, "_blank");
+        }
+
+        function shareOnFacebook() {
+            if (!selectedRestaurant) return;
+            const url = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(shareUrl, "_blank");
+        }
+
+        function copyToClipboard() {
+            if (!selectedRestaurant) return;
+            const link = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
+            navigator.clipboard.writeText(`Check out my brunch spot: ${selectedRestaurant.name} (${selectedRestaurant.address}). Play here: ${link}`);
+            alert("Link copied to clipboard!");
         }
 
         loadQuestion();
