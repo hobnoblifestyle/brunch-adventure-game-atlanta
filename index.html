@@ -115,14 +115,24 @@
         const restaurants = [
             {vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club"},
             {vibe: "Chill", location: "Midtown", name: "West Egg Café"},
-            {vibe: "Trendy", location: "Midtown", name: "The Lawrence"},
-            {vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge"},
-            {vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly"},
-            {vibe: "Trendy", location: "Buckhead", name: "5Church Atlanta"},
             {vibe: "Chill", location: "Westside", name: "The Chastain"},
-            {vibe: "Party", location: "Buckhead", name: "Rock Steady"},
+            {vibe: "Chill", location: "East Atlanta", name: "Muchacho"},
+            {vibe: "Chill", location: "Buckhead", name: "Henri's Bakery"},
+            {vibe: "Trendy", location: "Downtown", name: "Sweet Auburn Curb Market"},
+            {vibe: "Trendy", location: "Midtown", name: "The Lawrence"},
+            {vibe: "Trendy", location: "Westside", name: "5Church Atlanta"},
+            {vibe: "Trendy", location: "East Atlanta", name: "Home Grown"},
+            {vibe: "Trendy", location: "Buckhead", name: "Rumi's Kitchen"},
             {vibe: "Outdoor Seating", location: "Downtown", name: "Ria's Bluebird"},
-            {vibe: "Trendy", location: "East Atlanta", name: "Home Grown"}
+            {vibe: "Outdoor Seating", location: "Midtown", name: "Cafe Intermezzo"},
+            {vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly"},
+            {vibe: "Outdoor Seating", location: "East Atlanta", name: "Muchacho"},
+            {vibe: "Outdoor Seating", location: "Buckhead", name: "Le Bilboquet"},
+            {vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge"},
+            {vibe: "Party", location: "Midtown", name: "The Sound Table"},
+            {vibe: "Party", location: "Westside", name: "Rock Steady"},
+            {vibe: "Party", location: "East Atlanta", name: "Cirque Daiquiri Bar"},
+            {vibe: "Party", location: "Buckhead", name: "The Ivy"}
         ];
 
         let currentQuestionIndex = 0;
@@ -167,22 +177,16 @@
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
-            // Debugging: Display selected values in console
             console.log(`Selected Vibe: ${selectedVibe}`);
             console.log(`Selected Location: ${selectedLocation}`);
 
-            // Match logic
             const restaurant =
-                restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) || // Exact match
-                restaurants.find(r => r.vibe === selectedVibe) || // Match by vibe
-                restaurants.find(r => r.location === selectedLocation) || // Match by location
-                restaurants[0]; // Fallback to the first restaurant in the list
+                restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) ||
+                restaurants.find(r => r.vibe === selectedVibe) ||
+                restaurants.find(r => r.location === selectedLocation) ||
+                restaurants[0];
 
-            if (restaurant) {
-                resultText.textContent = `Based on your choices, we recommend: ${restaurant.name}!`;
-            } else {
-                resultText.textContent = "We couldn't find a perfect match, but explore more on our website!";
-            }
+            resultText.textContent = `Based on your choices, we recommend: ${restaurant.name}!`;
         }
 
         function restartGame() {
