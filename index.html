@@ -4,26 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Your Brunch Adventure | Atlanta Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #333;
         }
         .container {
             max-width: 600px;
-            margin: 20px auto;
+            margin: 30px auto;
             padding: 20px;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #0073e6;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 20px;
+            color: #5E6CFF; /* Complementary blue for "Your Brunch Spot" */
+            margin-bottom: 15px;
+        }
+        p {
+            text-align: center;
+            margin-bottom: 20px;
         }
         .question {
             margin-bottom: 20px;
-        }
-        .question h2 {
-            margin-bottom: 10px;
         }
         .options {
             list-style: none;
@@ -34,51 +49,58 @@
         }
         .options button {
             width: 100%;
-            padding: 10px;
+            padding: 12px 20px;
             font-size: 16px;
-            background: #0073e6;
+            background: #FF5E6C; /* Default pinkish-red for question buttons */
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         .options button:hover {
-            background: #005bb5;
+            background: #E44F5C; /* Slightly darker hover color */
+            transform: scale(1.05);
         }
         .results {
             display: none;
-        }
-        .results h2 {
-            color: #0073e6;
+            text-align: center;
         }
         .results p {
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
         }
-        .restart, .share {
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 16px;
-            background: #0073e6;
-            color: white;
+        .share-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .share-options button {
+            margin: 10px 5px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            display: inline-block;
+            transition: all 0.3s ease;
         }
-        .restart:hover, .share:hover {
-            background: #005bb5;
+        .share-options button:hover {
+            transform: scale(1.05);
         }
-        .share {
-            margin-left: 5px;
-            background: #00a860;
-        }
-        .share:hover {
-            background: #007d4a;
-        }
+        .share-options button:nth-child(1) { background-color: #1DA1F2; color: white; } /* X */
+        .share-options button:nth-child(2) { background-color: #4267B2; color: white; } /* Facebook */
+        .share-options button:nth-child(3) { background-color: #E60023; color: white; } /* Pinterest */
+        .share-options button:nth-child(4) { background-color: #FFC107; color: white; } /* Copy Link */
+        .share-options button:nth-child(1):hover { background-color: #0d8ae8; }
+        .share-options button:nth-child(2):hover { background-color: #365899; }
+        .share-options button:nth-child(3):hover { background-color: #c91b22; }
+        .share-options button:nth-child(4):hover { background-color: #d39e00; }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Choose Your Brunch Adventure!</h1>
         <div id="question-container">
             <div class="question" id="question">
                 <h2 id="question-text"></h2>
@@ -89,7 +111,13 @@
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
             <button class="restart" onclick="restartGame()">Restart</button>
-            <button class="share" onclick="shareResults()">Share Your Adventure</button>
+            <div class="share-options">
+                <p>Share your adventure:</p>
+                <button onclick="shareOnX()">Share on X</button>
+                <button onclick="shareOnFacebook()">Share on Facebook</button>
+                <button onclick="shareOnPinterest()">Share on Pinterest</button>
+                <button onclick="copyLink()">Copy Link for Instagram or TikTok</button>
+            </div>
         </div>
     </div>
     <script>
@@ -114,25 +142,9 @@
 
         const restaurants = [
             {vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club"},
-            {vibe: "Chill", location: "Midtown", name: "West Egg Café"},
-            {vibe: "Chill", location: "Westside", name: "The Chastain"},
-            {vibe: "Chill", location: "East Atlanta", name: "Muchacho"},
-            {vibe: "Chill", location: "Buckhead", name: "Henri's Bakery"},
-            {vibe: "Trendy", location: "Downtown", name: "Sweet Auburn Curb Market"},
             {vibe: "Trendy", location: "Midtown", name: "The Lawrence"},
-            {vibe: "Trendy", location: "Westside", name: "5Church Atlanta"},
-            {vibe: "Trendy", location: "East Atlanta", name: "Home Grown"},
-            {vibe: "Trendy", location: "Buckhead", name: "Rumi's Kitchen"},
-            {vibe: "Outdoor Seating", location: "Downtown", name: "Ria's Bluebird"},
-            {vibe: "Outdoor Seating", location: "Midtown", name: "Cafe Intermezzo"},
             {vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly"},
-            {vibe: "Outdoor Seating", location: "East Atlanta", name: "Muchacho"},
-            {vibe: "Outdoor Seating", location: "Buckhead", name: "Le Bilboquet"},
-            {vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge"},
-            {vibe: "Party", location: "Midtown", name: "The Sound Table"},
-            {vibe: "Party", location: "Westside", name: "Rock Steady"},
-            {vibe: "Party", location: "East Atlanta", name: "Cirque Daiquiri Bar"},
-            {vibe: "Party", location: "Buckhead", name: "The Ivy"}
+            {vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge"}
         ];
 
         let currentQuestionIndex = 0;
@@ -177,9 +189,6 @@
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
-            console.log(`Selected Vibe: ${selectedVibe}`);
-            console.log(`Selected Location: ${selectedLocation}`);
-
             const restaurant =
                 restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) ||
                 restaurants.find(r => r.vibe === selectedVibe) ||
@@ -197,11 +206,32 @@
             loadQuestion();
         }
 
-        function shareResults() {
-            const shareText = `I just found my perfect brunch spot in Atlanta! Play 'Choose Your Brunch Adventure' to find yours: [INSERT LINK]`;
+        function shareOnX() {
+            const shareText = `I just found my perfect brunch spot in Atlanta! Play 'Choose Your Brunch Adventure' to find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/`;
             const encodedText = encodeURIComponent(shareText);
             const shareLink = `https://twitter.com/intent/tweet?text=${encodedText}`;
             window.open(shareLink, "_blank");
+        }
+
+        function shareOnFacebook() {
+            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
+            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            window.open(shareLink, "_blank");
+        }
+
+        function shareOnPinterest() {
+            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
+            const shareImage = "https://your-image-url-here.jpg"; // Replace with a real image URL
+            const shareDescription = "Discover your perfect brunch spot in Atlanta with this fun interactive game!";
+            const shareLink = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(shareImage)}&description=${encodeURIComponent(shareDescription)}`;
+            window.open(shareLink, "_blank");
+        }
+
+        function copyLink() {
+            const shareUrl = "https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/";
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert("Link copied to clipboard! Share it on Instagram or TikTok.");
+            });
         }
 
         loadQuestion();
