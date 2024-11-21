@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -145,7 +145,6 @@
             { vibe: "Party", location: "Midtown", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" },
             { vibe: "Party", location: "East Atlanta", name: "MJQ Concourse", address: "736 Ponce De Leon Ave NE, Atlanta, GA 30306" }
         ];
-
         let currentQuestionIndex = 0;
         let answers = [];
         let selectedRestaurant = null;
@@ -173,38 +172,6 @@
                 document.getElementById("question-container").style.display = "none";
             }
         }
-
-        function showResults() {
-            const selectedVibe = answers[0];
-            const selectedLocation = answers[3];
-
-            let matchedRestaurants = restaurants.filter(
-                (r) => r.vibe === selectedVibe && r.location === selectedLocation
-            );
-
-            if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants.filter((r) =>
-                                  matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
-            }
-
-            if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
-            }
-
-            if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants;
-            }
-
-            selectedRestaurant =
-                matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
-
-            document.getElementById("result-text").innerHTML = `
-                <strong>${selectedRestaurant.name}</strong><br>
-                ${selectedRestaurant.address}
-            `;
-            document.getElementById("results").style.display = "block";
-        }
-
         function shareOnTwitter() {
             const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours at this adventure game:`;
             const url = encodeURIComponent(window.location.href);
@@ -230,7 +197,6 @@
             document.body.removeChild(tempInput);
             alert("Link copied to clipboard!");
         }
-
         function restartGame() {
             currentQuestionIndex = 0;
             answers = [];
@@ -244,4 +210,3 @@
     </script>
 </body>
 </html>
-
