@@ -30,7 +30,7 @@
         }
         h2 {
             font-size: 20px;
-            color: #5E6CFF; /* Complementary blue for "Your Brunch Spot" */
+            color: #5E6CFF;
             margin-bottom: 15px;
         }
         p {
@@ -51,7 +51,7 @@
             width: 100%;
             padding: 12px 20px;
             font-size: 16px;
-            background: #FF5E6C; /* Default pinkish-red for question buttons */
+            background: #FF5E6C;
             color: white;
             border: none;
             border-radius: 6px;
@@ -59,7 +59,7 @@
             transition: all 0.3s ease;
         }
         .options button:hover {
-            background: #E44F5C; /* Slightly darker hover color */
+            background: #E44F5C;
             transform: scale(1.05);
         }
         .results {
@@ -85,24 +85,16 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .share-options button:hover {
-            transform: scale(1.05);
-        }
-        .share-options button:nth-child(1) { background-color: #1DA1F2; color: white; } /* X */
-        .share-options button:nth-child(2) { background-color: #4267B2; color: white; } /* Facebook */
-        .share-options button:nth-child(3) { background-color: #E60023; color: white; } /* Pinterest */
-        .share-options button:nth-child(4) { background-color: #FFC107; color: white; } /* Copy Link */
-        .share-options button:nth-child(1):hover { background-color: #0d8ae8; }
-        .share-options button:nth-child(2):hover { background-color: #365899; }
-        .share-options button:nth-child(3):hover { background-color: #c91b22; }
-        .share-options button:nth-child(4):hover { background-color: #d39e00; }
+        .share-options button:nth-child(1) { background-color: #1DA1F2; color: white; }
+        .share-options button:nth-child(2) { background-color: #4267B2; color: white; }
+        .share-options button:nth-child(3) { background-color: #FFC107; color: white; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Choose Your Atlanta Brunch Adventure!</h1>
         <div id="question-container">
-            <div class="question" id="question">
+            <div class="question">
                 <h2 id="question-text"></h2>
                 <ul class="options" id="options-list"></ul>
             </div>
@@ -110,14 +102,7 @@
         <div id="results" class="results">
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
-            <button class="restart" onclick="restartGame()">Restart</button>
-            <div class="share-options">
-                <p>Share your adventure:</p>
-                <button onclick="shareOnX()">Share on X</button>
-                <button onclick="shareOnFacebook()">Share on Facebook</button>
-                <button onclick="shareOnPinterest()">Share on Pinterest</button>
-                <button onclick="copyLink()">Copy Link for Instagram or TikTok</button>
-            </div>
+            <button onclick="restartGame()">Restart</button>
         </div>
     </div>
     <script>
@@ -128,7 +113,7 @@
             },
             {
                 text: "What’s your must-have brunch item?",
-                options: ["Pancakes or Waffles", "Seafood", "Vegan Options", "Something Savory", "Bottomless Mimosas"]
+                options: ["Pancakes or Waffles", "Seafood", "Vegan Options", "Savory Dishes", "Bottomless Mimosas"]
             },
             {
                 text: "How adventurous are you feeling today?",
@@ -145,52 +130,33 @@
             { vibe: "Chill", location: "Downtown", name: "Corner Café", address: "100 Peachtree St NW, Atlanta, GA 30303" },
             { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
             { vibe: "Chill", location: "Midtown", name: "Egg Harbor Café", address: "1820 Peachtree Rd NW, Atlanta, GA 30309" },
-            { vibe: "Chill", location: "Buckhead", name: "Le Petit Marché", address: "1984 Hosea L Williams Dr NE, Atlanta, GA 30317" },
-            { vibe: "Chill", location: "Buckhead", name: "Buttermilk Kitchen", address: "4225 Roswell Rd NE, Atlanta, GA 30342" },
             { vibe: "Trendy", location: "Downtown", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
             { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
-            { vibe: "Trendy", location: "Midtown", name: "The Lawrence", address: "905 Juniper St NE, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Midtown", name: "5Church Midtown", address: "1197 Peachtree St NE, Atlanta, GA 30361" },
-            { vibe: "Trendy", location: "Westside", name: "Bar Taco", address: "969 Marietta St NW, Atlanta, GA 30318" },
-            { vibe: "Trendy", location: "Westside", name: "Little Trouble", address: "1170 Howell Mill Rd NW, Atlanta, GA 30318" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
-            { vibe: "Outdoor Seating", location: "Westside", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" },
             { vibe: "Outdoor Seating", location: "East Atlanta", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
-            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Muchacho", address: "904 Memorial Dr SE, Atlanta, GA 30316" },
-            { vibe: "Outdoor Seating", location: "Midtown", name: "Jinya Ramen Bar", address: "699 Ponce De Leon Ave NE, Atlanta, GA 30308" },
-            { vibe: "Outdoor Seating", location: "Midtown", name: "Rina", address: "699 Ponce De Leon Ave NE, Atlanta, GA 30308" },
             { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
-            { vibe: "Party", location: "Downtown", name: "Suite Food Lounge", address: "375 Luckie St NW, Atlanta, GA 30313" },
-            { vibe: "Party", location: "Buckhead", name: "Havana Club ATL", address: "3112 Piedmont Rd NE, Atlanta, GA 30305" },
-            { vibe: "Party", location: "Buckhead", name: "Tongue & Groove", address: "565 Main St NE, Atlanta, GA 30324" }
+            { vibe: "Party", location: "Buckhead", name: "Havana Club ATL", address: "3112 Piedmont Rd NE, Atlanta, GA 30305" }
         ];
 
         let currentQuestionIndex = 0;
         let answers = [];
 
-        const questionContainer = document.getElementById("question-container");
-        const questionText = document.getElementById("question-text");
-        const optionsList = document.getElementById("options-list");
-        const resultsContainer = document.getElementById("results");
-        const resultText = document.getElementById("result-text");
-
         function loadQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            questionText.textContent = currentQuestion.text;
+            const question = questions[currentQuestionIndex];
+            document.getElementById("question-text").textContent = question.text;
+            const optionsList = document.getElementById("options-list");
             optionsList.innerHTML = "";
-            currentQuestion.options.forEach(option => {
+            question.options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option;
-                button.setAttribute("data-answer", option);
-                button.addEventListener("click", handleAnswer);
+                button.addEventListener("click", () => handleAnswer(option));
                 const listItem = document.createElement("li");
                 listItem.appendChild(button);
                 optionsList.appendChild(listItem);
             });
         }
 
-        function handleAnswer(e) {
-            const answer = e.target.getAttribute("data-answer");
+        function handleAnswer(answer) {
             answers.push(answer);
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
@@ -201,66 +167,28 @@
         }
 
         function showResults() {
-            questionContainer.style.display = "none";
-            resultsContainer.style.display = "block";
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("results").style.display = "block";
 
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
-            const matchedRestaurants = restaurants.filter(
-                r => r.vibe === selectedVibe && r.location === selectedLocation
-            );
+            const matchedRestaurants = restaurants.filter(r => r.vibe === selectedVibe && r.location === selectedLocation);
 
-            const vibeFallback = restaurants.filter(r => r.vibe === selectedVibe);
-            const locationFallback = restaurants.filter(r => r.location === selectedLocation);
-            const defaultRestaurant = restaurants[0];
+            const restaurant = matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
 
-            const restaurant = 
-                (matchedRestaurants.length > 0 ? matchedRestaurants : 
-                (vibeFallback.length > 0 ? vibeFallback : 
-                (locationFallback.length > 0 ? locationFallback : 
-                [defaultRestaurant])))[0];
-
-            resultText.innerHTML = `
-                <strong>We recommend:</strong> <br>
-                <span style="font-size: 18px; color: #5E6CFF;"><b>${restaurant.name}</b></span><br>
-                <span style="font-size: 16px; color: #333;">${restaurant.address}</span>
+            document.getElementById("result-text").innerHTML = `
+                <strong>${restaurant.name}</strong><br>
+                ${restaurant.address}
             `;
-
-            window.sharedRestaurant = { name: restaurant.name, address: restaurant.address };
         }
 
         function restartGame() {
-            answers = [];
             currentQuestionIndex = 0;
-            resultsContainer.style.display = "none";
-            questionContainer.style.display = "block";
+            answers = [];
+            document.getElementById("results").style.display = "none";
+            document.getElementById("question-container").style.display = "block";
             loadQuestion();
-        }
-
-        function shareOnX() {
-            const { name, address } = window.sharedRestaurant;
-            const shareText = `I just found my perfect brunch spot: ${name} at ${address}! Play 'Choose Your Atlanta Brunch Adventure' to find yours: https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/?restaurant=${encodeURIComponent(name)}&address=${encodeURIComponent(address)}`;
-            const encodedText = encodeURIComponent(shareText);
-            const shareLink = `https://twitter.com/intent/tweet?text=${encodedText}`;
-            window.open(shareLink, "_blank");
-        }
-
-        function shareOnFacebook() {
-            const { name, address } = window.sharedRestaurant;
-            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/?restaurant=${encodeURIComponent(name)}&address=${encodeURIComponent(address)}`;
-            const shareQuote = `I just found my perfect brunch spot: ${name} at ${address}! Check it out:`;
-            const shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareQuote)}`;
-            window.open(shareLink, "_blank");
-        }
-
-        function copyLink() {
-            const { name, address } = window.sharedRestaurant;
-            const shareUrl = `https://hobnoblifestyle.github.io/brunch-adventure-game-atlanta/?restaurant=${encodeURIComponent(name)}&address=${encodeURIComponent(address)}`;
-            const shareText = `I just found my perfect brunch spot: ${name} at ${address}! Play 'Choose Your Atlanta Brunch Adventure' here: ${shareUrl}`;
-            navigator.clipboard.writeText(shareText).then(() => {
-                alert("Your result and link have been copied! Share it on Instagram or TikTok.");
-            });
         }
 
         loadQuestion();
