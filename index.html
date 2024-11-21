@@ -114,9 +114,15 @@
 
         const restaurants = [
             {vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club"},
+            {vibe: "Chill", location: "Midtown", name: "West Egg Café"},
             {vibe: "Trendy", location: "Midtown", name: "The Lawrence"},
-            {vibe: "Outdoor Seating", location: "Westside", name: "West Egg Café"},
-            {vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge"}
+            {vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge"},
+            {vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly"},
+            {vibe: "Trendy", location: "Buckhead", name: "5Church Atlanta"},
+            {vibe: "Chill", location: "Westside", name: "The Chastain"},
+            {vibe: "Party", location: "Buckhead", name: "Rock Steady"},
+            {vibe: "Outdoor Seating", location: "Downtown", name: "Ria's Bluebird"},
+            {vibe: "Trendy", location: "East Atlanta", name: "Home Grown"}
         ];
 
         let currentQuestionIndex = 0;
@@ -157,11 +163,16 @@
         function showResults() {
             questionContainer.style.display = "none";
             resultsContainer.style.display = "block";
+
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
-            const restaurant = restaurants.find(
-                r => r.vibe === selectedVibe && r.location === selectedLocation
-            );
+
+            // Match logic
+            const restaurant =
+                restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) || // Exact match
+                restaurants.find(r => r.vibe === selectedVibe) || // Match by vibe
+                restaurants.find(r => r.location === selectedLocation); // Match by location
+
             if (restaurant) {
                 resultText.textContent = `Based on your choices, we recommend: ${restaurant.name}!`;
             } else {
