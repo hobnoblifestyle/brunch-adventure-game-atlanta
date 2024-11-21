@@ -4,138 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Your Atlanta Brunch Adventure!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            color: #333;
         }
         .container {
             max-width: 600px;
-            margin: 30px auto;
+            margin: 50px auto;
+            background: white;
             padding: 20px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            font-size: 24px;
+        h1, h2 {
             text-align: center;
-            color: #0073e6;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        h2 {
-            font-size: 20px;
-            color: #5E6CFF;
-            margin-bottom: 15px;
-        }
-        p {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .question {
-            margin-bottom: 20px;
         }
         .options {
             list-style: none;
             padding: 0;
         }
-        .options li {
-            margin-bottom: 10px;
-        }
         .options button {
             width: 100%;
-            padding: 12px 20px;
+            padding: 10px;
+            margin: 10px 0;
             font-size: 16px;
-            background: #FF5E6C;
+            cursor: pointer;
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         .options button:hover {
-            background: #E44F5C;
-            transform: scale(1.05);
+            background-color: #0056b3;
         }
         .results {
             display: none;
             text-align: center;
         }
-        .results p {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        .share-options {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .share-options button {
-            margin: 10px 5px;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: bold;
+        .restart {
+            background-color: #28a745;
+            color: white;
             border: none;
-            border-radius: 6px;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
-        .share-options button:nth-child(1) { background-color: #1DA1F2; color: white; }
-        .share-options button:nth-child(2) { background-color: #4267B2; color: white; }
-        .share-options button:nth-child(3) { background-color: #FFC107; color: white; }
+        .restart:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Choose Your Atlanta Brunch Adventure!</h1>
         <div id="question-container">
-            <div class="question">
-                <h2 id="question-text"></h2>
-                <ul class="options" id="options-list"></ul>
-            </div>
+            <h2 id="question-text"></h2>
+            <ul class="options" id="options-list"></ul>
         </div>
         <div id="results" class="results">
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
-            <button onclick="restartGame()">Restart</button>
+            <button class="restart" onclick="restartGame()">Restart</button>
         </div>
     </div>
     <script>
         const questions = [
-            {
-                text: "What vibe are you feeling today?",
-                options: ["Chill", "Trendy", "Outdoor Seating", "Party"]
-            },
-            {
-                text: "What’s your must-have brunch item?",
-                options: ["Pancakes or Waffles", "Seafood", "Vegan Options", "Savory Dishes", "Bottomless Mimosas"]
-            },
-            {
-                text: "How adventurous are you feeling today?",
-                options: ["Play it Safe", "Try Something New", "Surprise Me!"]
-            },
-            {
-                text: "Which area of Atlanta do you prefer?",
-                options: ["Downtown", "Midtown", "Buckhead", "East Atlanta", "Westside"]
-            }
+            { text: "What vibe are you feeling today?", options: ["Chill", "Trendy", "Outdoor Seating", "Party"] },
+            { text: "What’s your must-have brunch item?", options: ["Pancakes", "Seafood", "Vegan Options", "Mimosas"] },
+            { text: "How adventurous are you feeling today?", options: ["Play it Safe", "Try Something New", "Surprise Me!"] },
+            { text: "Which area of Atlanta do you prefer?", options: ["Downtown", "Midtown", "Buckhead", "East Atlanta", "Westside"] }
         ];
 
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
-            { vibe: "Chill", location: "Downtown", name: "Corner Café", address: "100 Peachtree St NW, Atlanta, GA 30303" },
             { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
-            { vibe: "Chill", location: "Midtown", name: "Egg Harbor Café", address: "1820 Peachtree Rd NW, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Downtown", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
+            { vibe: "Trendy", location: "Downtown", name: "Escobar", address: "327 Peters St SW, Atlanta, GA 30313" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
-            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
-            { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
-            { vibe: "Party", location: "Buckhead", name: "Havana Club ATL", address: "3112 Piedmont Rd NE, Atlanta, GA 30305" }
+            { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" }
         ];
 
         let currentQuestionIndex = 0;
@@ -149,7 +99,7 @@
             question.options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option;
-                button.addEventListener("click", () => handleAnswer(option));
+                button.onclick = () => handleAnswer(option);
                 const listItem = document.createElement("li");
                 listItem.appendChild(button);
                 optionsList.appendChild(listItem);
@@ -174,6 +124,11 @@
             const selectedLocation = answers[3];
 
             const matchedRestaurants = restaurants.filter(r => r.vibe === selectedVibe && r.location === selectedLocation);
+
+            if (matchedRestaurants.length === 0) {
+                document.getElementById("result-text").innerHTML = "No matches found. Try again!";
+                return;
+            }
 
             const restaurant = matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
 
