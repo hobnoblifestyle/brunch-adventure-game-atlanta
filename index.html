@@ -76,17 +76,21 @@
             { text: "How adventurous are you feeling today?", options: ["Play it Safe", "Try Something New", "Surprise Me!"] },
             { text: "Which area of Atlanta do you prefer?", options: ["Downtown", "Midtown", "Buckhead", "East Atlanta", "Westside"] }
         ];
-
         const restaurants = [
-            { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
-            { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
-            { vibe: "Chill", location: "Buckhead", name: "Buttermilk Kitchen", address: "4225 Roswell Rd NE, Atlanta, GA 30342" },
-            { vibe: "Trendy", location: "Downtown", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
-            { vibe: "Trendy", location: "Midtown", name: "5Church Midtown", address: "1197 Peachtree St NE, Atlanta, GA 30361" },
-            { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
-            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
-            { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
-            { vibe: "Party", location: "Midtown", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" }
+            { vibe: "Chill", location: "Downtown", brunchItem: "Pancakes", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
+            { vibe: "Chill", location: "Midtown", brunchItem: "Seafood", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
+            { vibe: "Chill", location: "Buckhead", brunchItem: "Vegan Options", name: "Buttermilk Kitchen", address: "4225 Roswell Rd NE, Atlanta, GA 30342" },
+            { vibe: "Trendy", location: "Downtown", brunchItem: "Mimosas", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
+            { vibe: "Trendy", location: "Midtown", brunchItem: "Pancakes", name: "5Church Midtown", address: "1197 Peachtree St NE, Atlanta, GA 30361" },
+            { vibe: "Outdoor Seating", location: "Westside", brunchItem: "Seafood", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
+            { vibe: "Outdoor Seating", location: "East Atlanta", brunchItem: "Vegan Options", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
+            { vibe: "Party", location: "Downtown", brunchItem: "Mimosas", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
+            { vibe: "Party", location: "Midtown", brunchItem: "Seafood", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" },
+            { vibe: "Party", location: "East Atlanta", brunchItem: "Vegan Options", name: "MJQ Concourse", address: "736 Ponce De Leon Ave NE, Atlanta, GA 30306" },
+            { vibe: "Chill", location: "East Atlanta", brunchItem: "Mimosas", name: "Muchacho", address: "904 Memorial Dr SE, Atlanta, GA 30316" },
+            { vibe: "Trendy", location: "Westside", brunchItem: "Seafood", name: "The Optimist", address: "914 Howell Mill Rd, Atlanta, GA 30318" },
+            { vibe: "Outdoor Seating", location: "Midtown", brunchItem: "Pancakes", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" },
+            { vibe: "Party", location: "Buckhead", brunchItem: "Mimosas", name: "Tongue & Groove", address: "565 Main St NE, Atlanta, GA 30324" }
         ];
         let currentQuestionIndex = 0;
         let answers = [];
@@ -115,24 +119,40 @@
                 showResults();
             }
         }
-
         function showResults() {
             const selectedVibe = answers[0];
+            const selectedBrunchItem = answers[1];
             const selectedLocation = answers[3];
+
+            // Find a restaurant matching vibe, brunch item, and location
             let matchedRestaurants = restaurants.filter(
-                (r) => r.vibe === selectedVibe && r.location === selectedLocation
+                (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem && r.location === selectedLocation
             );
+
+            // Fallback 1: Match vibe and brunch item
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants.filter(
+                    (r) => r.vibe === selectedVibe && r.brunchItem === selectedBrunchItem
+                );
+            }
+
+            // Fallback 2: Match vibe only
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
             }
+
+            // Fallback 3: Match location only
             if (matchedRestaurants.length === 0) {
                 matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
             }
+
+            // Fallback 4: Default to first restaurant
             if (matchedRestaurants.length === 0) {
-                matchedRestaurants = restaurants;
+                matchedRestaurants = [restaurants[0]];
             }
-            selectedRestaurant =
-                matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
+
+            // Display the selected restaurant
+            selectedRestaurant = matchedRestaurants[0];
             document.getElementById("result-text").innerHTML = `
                 <strong>${selectedRestaurant.name}</strong><br>
                 ${selectedRestaurant.address}
@@ -164,7 +184,6 @@
             document.body.removeChild(tempInput);
             alert("Link copied to clipboard!");
         }
-
         function restartGame() {
             currentQuestionIndex = 0;
             answers = [];
@@ -173,7 +192,7 @@
             document.getElementById("question-container").style.display = "block";
             loadQuestion();
         }
-
+        // Initialize the game by loading the first question
         loadQuestion();
     </script>
 </body>
