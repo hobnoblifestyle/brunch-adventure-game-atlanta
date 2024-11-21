@@ -85,12 +85,12 @@
             { vibe: "Outdoor Seating", location: "Westside", brunchItem: "Seafood", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
             { vibe: "Outdoor Seating", location: "East Atlanta", brunchItem: "Vegan Options", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
             { vibe: "Party", location: "Downtown", brunchItem: "Mimosas", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
-            { vibe: "Party", location: "Midtown", brunchItem: "Seafood", name: "Midtown Moon", address: "1492 Piedmont Ave NE, Atlanta, GA 30309" },
-            { vibe: "Party", location: "East Atlanta", brunchItem: "Vegan Options", name: "MJQ Concourse", address: "736 Ponce De Leon Ave NE, Atlanta, GA 30306" },
+            { vibe: "Party", location: "Downtown", brunchItem: "Mimosas", name: "Cafe Circa", address: "464 Edgewood Ave SE, Atlanta, GA 30312" },
+            { vibe: "Party", location: "Midtown", brunchItem: "Seafood", name: "Sea Salt Seafood Lounge", address: "1044 Greenwood Ave NE, Atlanta, GA 30306" },
+            { vibe: "Party", location: "Westside", brunchItem: "Pancakes", name: "Garden Parc", address: "792 Cascade Ave SW, Atlanta, GA 30310" },
             { vibe: "Chill", location: "East Atlanta", brunchItem: "Mimosas", name: "Muchacho", address: "904 Memorial Dr SE, Atlanta, GA 30316" },
             { vibe: "Trendy", location: "Westside", brunchItem: "Seafood", name: "The Optimist", address: "914 Howell Mill Rd, Atlanta, GA 30318" },
-            { vibe: "Outdoor Seating", location: "Midtown", brunchItem: "Pancakes", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" },
-            { vibe: "Party", location: "Buckhead", brunchItem: "Mimosas", name: "Tongue & Groove", address: "565 Main St NE, Atlanta, GA 30324" }
+            { vibe: "Outdoor Seating", location: "Midtown", brunchItem: "Pancakes", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" }
         ];
         let currentQuestionIndex = 0;
         let answers = [];
@@ -159,8 +159,6 @@
             `;
             document.getElementById("results").style.display = "block";
         }
-        function shareOnTwitter() {
-            const text = `I just found my brunch spot: ${selectedRestaurant.name} at ${selectedRestaurant.address}! Find yours here:`;
             const url = encodeURIComponent(window.location.href);
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 text
@@ -172,7 +170,19 @@
             const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                 window.location.href
             )}`;
-            window.open(fbUrl, "_blank");
+            const fbAppUrl = `fb://faceweb/f?href=${encodeURIComponent(window.location.href)}`;
+
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                // Attempt to open the Facebook app
+                window.location.href = fbAppUrl;
+                // Fallback to the browser after a slight delay if the app doesn't open
+                setTimeout(() => {
+                    window.open(fbUrl, "_blank");
+                }, 1000);
+            } else {
+                // On desktop, always open in a new tab
+                window.open(fbUrl, "_blank");
+            }
         }
 
         function copyLink() {
