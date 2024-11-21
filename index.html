@@ -121,6 +121,25 @@
         </div>
     </div>
     <script>
+        const questions = [
+            {
+                text: "What vibe are you feeling today?",
+                options: ["Chill", "Trendy", "Outdoor Seating", "Party"]
+            },
+            {
+                text: "What’s your must-have brunch item?",
+                options: ["Pancakes or Waffles", "Seafood", "Vegan Options", "Something Savory", "Bottomless Mimosas"]
+            },
+            {
+                text: "How adventurous are you feeling today?",
+                options: ["Play it Safe", "Try Something New", "Surprise Me!"]
+            },
+            {
+                text: "Which area of Atlanta do you prefer?",
+                options: ["Downtown", "Midtown", "Buckhead", "East Atlanta", "Westside"]
+            }
+        ];
+
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
             { vibe: "Trendy", location: "Midtown", name: "The Lawrence", address: "905 Juniper St NE, Atlanta, GA 30309" },
@@ -176,7 +195,7 @@
                 restaurants.find(r => r.location === selectedLocation) ||
                 restaurants[0];
 
-            // Update resultText to include name and address
+            // Update resultText to include both the name and address
             resultText.innerHTML = `
                 <strong>We recommend:</strong> <br>
                 <span style="font-size: 18px; color: #5E6CFF;"><b>${restaurant.name}</b></span><br>
@@ -186,6 +205,14 @@
             // Save restaurant details for sharing
             const { name, address } = restaurant;
             window.sharedRestaurant = { name, address }; // Store for sharing
+        }
+
+        function restartGame() {
+            answers = [];
+            currentQuestionIndex = 0;
+            resultsContainer.style.display = "none";
+            questionContainer.style.display = "block";
+            loadQuestion();
         }
 
         function shareOnX() {
