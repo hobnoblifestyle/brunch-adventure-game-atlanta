@@ -142,9 +142,27 @@
 
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
+            { vibe: "Chill", location: "Downtown", name: "Corner Café", address: "100 Peachtree St NW, Atlanta, GA 30303" },
+            { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
+            { vibe: "Chill", location: "Midtown", name: "Egg Harbor Café", address: "1820 Peachtree Rd NW, Atlanta, GA 30309" },
+            { vibe: "Chill", location: "Buckhead", name: "Le Petit Marché", address: "1984 Hosea L Williams Dr NE, Atlanta, GA 30317" },
+            { vibe: "Chill", location: "Buckhead", name: "Buttermilk Kitchen", address: "4225 Roswell Rd NE, Atlanta, GA 30342" },
+            { vibe: "Trendy", location: "Downtown", name: "Café Intermezzo", address: "33 Peachtree Pl NE, Atlanta, GA 30309" },
+            { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
             { vibe: "Trendy", location: "Midtown", name: "The Lawrence", address: "905 Juniper St NE, Atlanta, GA 30309" },
+            { vibe: "Trendy", location: "Midtown", name: "5Church Midtown", address: "1197 Peachtree St NE, Atlanta, GA 30361" },
+            { vibe: "Trendy", location: "Westside", name: "Bar Taco", address: "969 Marietta St NW, Atlanta, GA 30318" },
+            { vibe: "Trendy", location: "Westside", name: "Little Trouble", address: "1170 Howell Mill Rd NW, Atlanta, GA 30318" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
-            { vibe: "Party", location: "East Atlanta", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" }
+            { vibe: "Outdoor Seating", location: "Westside", name: "Anis Café & Bistro", address: "2974 Grandview Ave NE, Atlanta, GA 30305" },
+            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Ladybird Grove & Mess Hall", address: "684 John Wesley Dobbs Ave NE, Atlanta, GA 30312" },
+            { vibe: "Outdoor Seating", location: "East Atlanta", name: "Muchacho", address: "904 Memorial Dr SE, Atlanta, GA 30316" },
+            { vibe: "Outdoor Seating", location: "Midtown", name: "Jinya Ramen Bar", address: "699 Ponce De Leon Ave NE, Atlanta, GA 30308" },
+            { vibe: "Outdoor Seating", location: "Midtown", name: "Rina", address: "699 Ponce De Leon Ave NE, Atlanta, GA 30308" },
+            { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" },
+            { vibe: "Party", location: "Downtown", name: "Suite Food Lounge", address: "375 Luckie St NW, Atlanta, GA 30313" },
+            { vibe: "Party", location: "Buckhead", name: "Havana Club ATL", address: "3112 Piedmont Rd NE, Atlanta, GA 30305" },
+            { vibe: "Party", location: "Buckhead", name: "Tongue & Groove", address: "565 Main St NE, Atlanta, GA 30324" }
         ];
 
         let currentQuestionIndex = 0;
@@ -189,22 +207,27 @@
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
-            const restaurant =
-                restaurants.find(r => r.vibe === selectedVibe && r.location === selectedLocation) ||
-                restaurants.find(r => r.vibe === selectedVibe) ||
-                restaurants.find(r => r.location === selectedLocation) ||
-                restaurants[0];
+            const matchedRestaurants = restaurants.filter(
+                r => r.vibe === selectedVibe && r.location === selectedLocation
+            );
 
-            // Update resultText to include both the name and address
+            const vibeFallback = restaurants.filter(r => r.vibe === selectedVibe);
+            const locationFallback = restaurants.filter(r => r.location === selectedLocation);
+            const defaultRestaurant = restaurants[0];
+
+            const restaurant = 
+                (matchedRestaurants.length > 0 ? matchedRestaurants : 
+                (vibeFallback.length > 0 ? vibeFallback : 
+                (locationFallback.length > 0 ? locationFallback : 
+                [defaultRestaurant])))[0];
+
             resultText.innerHTML = `
                 <strong>We recommend:</strong> <br>
                 <span style="font-size: 18px; color: #5E6CFF;"><b>${restaurant.name}</b></span><br>
                 <span style="font-size: 16px; color: #333;">${restaurant.address}</span>
             `;
 
-            // Save restaurant details for sharing
-            const { name, address } = restaurant;
-            window.sharedRestaurant = { name, address }; // Store for sharing
+            window.sharedRestaurant = { name: restaurant.name, address: restaurant.address };
         }
 
         function restartGame() {
