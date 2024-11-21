@@ -49,13 +49,6 @@
             text-align: center;
             display: none;
         }
-        .share-options button {
-            margin: 10px 5px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
         .restart {
             margin-top: 20px;
             padding: 10px 15px;
@@ -81,11 +74,6 @@
         <div id="results" class="results">
             <h2>Your Brunch Spot:</h2>
             <p id="result-text"></p>
-            <div class="share-options">
-                <button onclick="shareOnTwitter()">Twitter</button>
-                <button onclick="shareOnFacebook()">Facebook</button>
-                <button onclick="copyToClipboard()">Copy Link</button>
-            </div>
             <button class="restart" onclick="restartGame()">Restart</button>
         </div>
     </div>
@@ -99,6 +87,7 @@
 
         const restaurants = [
             { vibe: "Chill", location: "Downtown", name: "Atlanta Breakfast Club", address: "249 Ivan Allen Jr Blvd NW, Atlanta, GA 30313" },
+            { vibe: "Chill", location: "Midtown", name: "Joy Café", address: "1100 Peachtree St NE, Atlanta, GA 30309" },
             { vibe: "Trendy", location: "Downtown", name: "Escobar Restaurant & Tapas", address: "327 Peters St SW, Atlanta, GA 30313" },
             { vibe: "Outdoor Seating", location: "Westside", name: "Sun in My Belly", address: "2161 College Ave NE, Atlanta, GA 30317" },
             { vibe: "Party", location: "Downtown", name: "BQE Restaurant & Lounge", address: "262 Edgewood Ave SE, Atlanta, GA 30303" }
@@ -132,26 +121,34 @@
         }
 
         function showResults() {
-            document.getElementById("question-container").style.display = "none";
-            document.getElementById("results").style.display = "block";
-
             const selectedVibe = answers[0];
             const selectedLocation = answers[3];
 
-            const matchedRestaurants = restaurants.filter(
+            // Match restaurants based on vibe and location
+            let matchedRestaurants = restaurants.filter(
                 (r) => r.vibe === selectedVibe && r.location === selectedLocation
             );
 
+            // Fallback: Match only on vibe
             if (matchedRestaurants.length === 0) {
-                document.getElementById("result-text").innerHTML =
-                    "No matches found. Try again!";
-                return;
+                matchedRestaurants = restaurants.filter((r) => r.vibe === selectedVibe);
             }
 
-            selectedRestaurant = matchedRestaurants[
-                Math.floor(Math.random() * matchedRestaurants.length)
-            ];
+            // Fallback: Match only on location
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants.filter((r) => r.location === selectedLocation);
+            }
 
+            // Final fallback: Select any random restaurant
+            if (matchedRestaurants.length === 0) {
+                matchedRestaurants = restaurants;
+            }
+
+            // Select a random restaurant from matches
+            selectedRestaurant =
+                matchedRestaurants[Math.floor(Math.random() * matchedRestaurants.length)];
+
+            // Display the result
             document.getElementById("result-text").innerHTML = `
                 <strong>${selectedRestaurant.name}</strong><br>
                 ${selectedRestaurant.address}
