@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,14 +80,9 @@
 <body>
     <div class="container">
         <div id="question-container">
-            <div class="question" id="question-1">
-                <h2>What vibe are you feeling today?</h2>
-                <ul class="options">
-                    <li><button data-answer="Chill">Chill</button></li>
-                    <li><button data-answer="Trendy">Trendy</button></li>
-                    <li><button data-answer="Outdoor Seating">Outdoor Seating</button></li>
-                    <li><button data-answer="Party">Party</button></li>
-                </ul>
+            <div class="question" id="question">
+                <h2 id="question-text"></h2>
+                <ul class="options" id="options-list"></ul>
             </div>
         </div>
         <div id="results" class="results">
@@ -101,33 +95,70 @@
     <script>
         const questions = [
             {
-                id: "question-1",
                 text: "What vibe are you feeling today?",
                 options: ["Chill", "Trendy", "Outdoor Seating", "Party"]
             },
+            {
+                text: "What’s your must-have brunch item?",
+                options: ["Pancakes or Waffles", "Seafood", "Vegan Options", "Something Savory", "Bottomless Mimosas"]
+            },
+            {
+                text: "How adventurous are you feeling today?",
+                options: ["Play it Safe", "Try Something New", "Surprise Me!"]
+            },
+            {
+                text: "Which area of Atlanta do you prefer?",
+                options: ["Downtown", "Midtown", "Buckhead", "East Atlanta", "Westside"]
+            }
         ];
 
+        let currentQuestionIndex = 0;
         let answers = [];
 
-        document.querySelectorAll(".options button").forEach(button => {
-            button.addEventListener("click", (e) => {
-                const answer = e.target.getAttribute("data-answer");
-                answers.push(answer);
+        const questionContainer = document.getElementById("question-container");
+        const questionText = document.getElementById("question-text");
+        const optionsList = document.getElementById("options-list");
+        const resultsContainer = document.getElementById("results");
+        const resultText = document.getElementById("result-text");
 
-                showResults();
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.text;
+            optionsList.innerHTML = "";
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.setAttribute("data-answer", option);
+                button.addEventListener("click", handleAnswer);
+                const listItem = document.createElement("li");
+                listItem.appendChild(button);
+                optionsList.appendChild(listItem);
             });
-        });
+        }
+
+        function handleAnswer(e) {
+            const answer = e.target.getAttribute("data-answer");
+            answers.push(answer);
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
 
         function showResults() {
-            document.getElementById("question-container").style.display = "none";
-            document.getElementById("results").style.display = "block";
-            document.getElementById("result-text").textContent = `Your vibe is: ${answers[0]}!`; 
+            questionContainer.style.display = "none";
+            resultsContainer.style.display = "block";
+            resultText.textContent = `Your vibe: ${answers[0]}, your must-have item: ${answers[1]}, your adventurous level: ${answers[2]}, and your preferred location: ${answers[3]}!`;
         }
 
         function restartGame() {
             answers = [];
-            document.getElementById("results").style.display = "none";
-            document.getElementById("question-container").style.display = "block";
+            currentQuestionIndex = 0;
+            resultsContainer.style.display = "none";
+            questionContainer.style.display = "block";
+            loadQuestion();
         }
 
         function shareResults() {
@@ -136,6 +167,8 @@
             const shareLink = `https://twitter.com/intent/tweet?text=${encodedText}`;
             window.open(shareLink, "_blank");
         }
+
+        loadQuestion();
     </script>
 </body>
 </html>
