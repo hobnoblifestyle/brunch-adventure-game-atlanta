@@ -187,23 +187,9 @@
     const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         window.location.href
     )}`;
-    const fbAppUrl = `fb://faceweb/f?href=${encodeURIComponent(window.location.href)}`;
 
-    // Detect mobile devices
-    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-
-    if (isMobile) {
-        // Open Facebook app on mobile
-        window.location.href = fbAppUrl;
-
-        // Fallback to browser if the app doesn't open within 1 second
-        setTimeout(() => {
-            window.open(fbUrl, "_blank");
-        }, 1000);
-    } else {
-        // Always open the share link in a new browser tab on desktop
-        window.open(fbUrl, "_blank");
-    }
+    // Always use the Facebook share URL for universal compatibility
+    window.open(fbUrl, "_blank");
 }
 
         function copyLink() {
